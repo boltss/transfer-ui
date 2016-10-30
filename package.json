@@ -1,10 +1,13 @@
 {
     "name": "transfer-ui",
     "version": "1.0.0",
-    "description": "Transfer files easily with the help of command line and https://transfer.sh service",
-    "main": "main.js",
+    "description": "Transfer files easily with the help of command line and https://transfer.sh/ service",
+    "main": "index.js",
     "scripts": {
-        "start": "electron ."
+        "make-directories": "mkdir -p build",
+        "build": "npm run make-directories && browserify app/app.js -o build/app.js -t [ babelify ]",
+        "build:watch": "npm run make-directories && watchify app/app.js -o build/app.js -t [ babelify ] --debug --verbose",
+        "start": "npm run build && electron . | npm run build:watch"
     },
     "repository": "https://github.com/boltss/transfer-ui",
     "keywords": [
@@ -15,6 +18,17 @@
     "author": "rogerkerse@gmail.com",
     "license": "MIT",
     "devDependencies": {
-        "electron": "^1.4.1"
+        "babel-cli": "^6.18.0",
+        "babel-preset-latest": "^6.16.0",
+        "babel-preset-react": "^6.16.0",
+        "babelify": "^7.3.0",
+        "browserify": "^13.1.1",
+        "electron": "^1.4.1",
+        "watchify": "^3.7.0"
+    },
+    "dependencies": {
+        "babel-register": "^6.18.0",
+        "react": "^15.3.2",
+        "react-dom": "^15.3.2"
     }
 }
