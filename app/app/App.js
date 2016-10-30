@@ -1,25 +1,20 @@
-import React, {Component} from 'react'
-import ReactDOM from 'react-dom'
+import React, { Component } from 'react'
 
-class App extends Component {
+export default class App extends Component {
 	state = {
 		count: 0
 	}
 	increase = () => {
 		this.setState({
 			count: this.state.count + 1
-		});
+		})
 	}
 	render() {
 		return (
 			<div>
-				<h1>React works!</h1>
+				<h1>React works! {this.state.count}</h1>
 				<button onClick={this.increase}>Suurenda</button>
 			</div>
 		)
 	}
 }
-ReactDOM.render(
-	<App/>,
-	document.getElementById('app')
-)
