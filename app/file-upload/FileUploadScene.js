@@ -26,28 +26,38 @@ export class FileUploadScene extends Component {
 	}
 	render() {
 		const {
-			uploadingFile
+			actions,
+			uploadingFile,
+			uploadedFile
 		} = this.props
 		const {
 			draggingFile
 		} = this.state
 		const dropZoneTextActiveStyle = draggingFile ? styles.dropZoneTextActive: {}
 		return (
-			<Dropzone
-				onDrop={this.onDropFile}
-				disableClick={true}
-				style={styles.dropZone}
-				onDragEnter={this.onDragFile}
-				onDragOver={this.onDragFile}
-				onDragLeave={this.onStopDraggingFile}
-				onDragEnd={this.onStopDraggingFile}>
-				<div style={{...styles.dropZoneText, ...dropZoneTextActiveStyle}}>
-					{uploadingFile ?
-						<Spinner/> :
-						'Drop file you wish to transfer here'
+			<div style={styles.container}>
+				<Dropzone
+					onDrop={this.onDropFile}
+					disableClick={true}
+					style={styles.dropZone}
+					onDragEnter={this.onDragFile}
+					onDragOver={this.onDragFile}
+					onDragLeave={this.onStopDraggingFile}
+					onDragEnd={this.onStopDraggingFile}>
+					<div style={{...styles.dropZoneText, ...dropZoneTextActiveStyle}}>
+						{uploadingFile ?
+							<Spinner/> :
+							'Drop file you wish to transfer here'
+						}
+					</div>
+				</Dropzone>
+				<div style={styles.feedbackArea} onClick={actions.copyUploadedFileCurlToClipboard}>
+					{uploadedFile ?
+						uploadedFile.curlCommand :
+						'Drag file above'
 					}
 				</div>
-			</Dropzone>
+			</div>
 		)
 	}
 }
@@ -63,22 +73,43 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(FileUploadScene)
 
 const styles = {
+	container: {
+		display: 'flex',
+		flexDirection: 'column',
+		height: '100%'
+	},
 	dropZone: {
-		width: '100%',
-		height: '100%',
+		display: 'flex',
+		flex: 1,
 		padding: '50px',
-		boxSizing: 'border-box'
+		boxSizing: 'border-box',
+		userSelect: 'none',
+		WebkitUserSelect: 'none',
+		cursor: 'default'
 	},
 	dropZoneText: {
+		width: '100%',
 		height: '100%',
 		borderStyle: 'dashed',
 		borderColor: 'lightgray',
 		boxSizing: 'border-box',
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
+		color: 'white'
 	},
 	dropZoneTextActive: {
-		borderColor: 'black'
+		borderColor: 'black',
+		color: 'black'
+	},
+	feedbackArea: {
+		display: 'flex',
+		flex: '0 0 60px',
+		alignItems: 'center',
+		justifyContent: 'center',
+		background: '#4a4a4a',
+		color: 'lightgray',
+		cursor: 'pointer',
+		userSelect: 'none'
 	}
 }

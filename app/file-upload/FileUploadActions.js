@@ -1,5 +1,6 @@
 import cmd from 'node-cmd'
 import S from 'string'
+import electron, { clipboard, ipcRenderer } from 'electron'
 
 import {
 	UPLOAD_FILE,
@@ -21,14 +22,17 @@ function uploadingFileFail(error) {
 	}
 }
 
-function uploadingFileSuccess(fileUrl) {
+function uploadingFileSuccess({file, fileUrl}) {
 	return {
 		type: UPLOAD_FILE_SUCCESS,
-		fileUrl
+		uploadedFile: {
+			fileUrl: fileUrl,
+			curlCommand: `curl ${fileUrl} -o ${file.name}`
+		}
 	}
 }
 
-export const uploadFile = (file) => async (dispatch) => {
+export const uploadFile = (file) => async (dispatch, state) => {
 	try {
 		dispatch(startUploadingFile());
 		const fileUrl = await new Promise((resolve, reject) => {
@@ -40,8 +44,20 @@ export const uploadFile = (file) => async (dispatch) => {
 				resolve(data.trim())
 			})
 		})
-		dispatch(uploadingFileSuccess(fileUrl))
+		dispatch(uploadingFileSuccess({
+			file,
+			fileUrl
+		}))
 	} catch (error) {
 		dispatch(uploadingFileFail(error))
+	}
+}
+
+export const copyUploadedFileCurlToClipboard = () => async (dispatch, getState) => {
+	console.log(electron, ipcRenderer, clipboard)
+	ipcRenderer.send('asynchronous-message', 'ping')
+	const { uploadedFile } = getState().FileUploadReducer
+	if (uploadedFile) {
+		clipboard.writeText(uploadedFile.curlCommand)
 	}
 }

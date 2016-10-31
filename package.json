@@ -26,7 +26,7 @@
         "babel-register": "^6.18.0",
         "babelify": "^7.3.0",
         "browserify": "^13.1.1",
-        "electron": "^1.4.1",
+        "electron": "^1.4.4",
         "redux-logger": "^2.7.4",
         "watchify": "^3.7.0"
     },

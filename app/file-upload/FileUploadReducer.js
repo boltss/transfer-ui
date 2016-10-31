@@ -6,7 +6,7 @@ import {
 
 const initialState = {
 	uploadingFile: false,
-	fileUrl: null
+	uploadedFile: null
 }
 export default (state = initialState, action) => {
 	switch (action.type) {
@@ -14,13 +14,13 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				uploadingFile: true,
-				fileUrl: null
+				uploadedFile: null
 			}
 		case UPLOAD_FILE_SUCCESS:
 			return {
 				...state,
 				uploadingFile: false,
-				fileUrl: action.fileUrl
+				uploadedFile: action.uploadedFile
 			}
 		case UPLOAD_FILE_FAIL:
 			return {
