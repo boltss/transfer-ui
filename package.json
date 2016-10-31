@@ -5,8 +5,8 @@
     "main": "index.js",
     "scripts": {
         "make-directories": "mkdir -p build",
-        "build": "npm run make-directories && browserify app/index.js -o build/bundle.js -t [ babelify ]",
-        "build:watch": "npm run make-directories && watchify app/index.js -o build/bundle.js -t [ babelify ] --debug --verbose",
+        "build": "npm run make-directories && browserify app/index.js -o build/bundle.js -t [ babelify ] --node",
+        "build:watch": "npm run make-directories && watchify app/index.js -o build/bundle.js -t [ babelify ] --node --debug --verbose",
         "start": "npm run build && electron . | npm run build:watch"
     },
     "repository": "https://github.com/boltss/transfer-ui",
@@ -19,23 +19,26 @@
     "license": "MIT",
     "devDependencies": {
         "babel-cli": "^6.18.0",
+        "babel-polyfill": "^6.16.0",
         "babel-preset-latest": "^6.16.0",
         "babel-preset-react": "^6.16.0",
         "babel-preset-stage-2": "^6.18.0",
+        "babel-register": "^6.18.0",
         "babelify": "^7.3.0",
         "browserify": "^13.1.1",
         "electron": "^1.4.1",
+        "redux-logger": "^2.7.4",
         "watchify": "^3.7.0"
     },
     "dependencies": {
-        "babel-register": "^6.18.0",
+        "node-cmd": "^1.1.1",
         "react": "^15.3.2",
         "react-dom": "^15.3.2",
         "react-dropzone": "^3.7.0",
         "react-redux": "^4.4.5",
         "react-router": "^3.0.0",
         "redux": "^3.6.0",
-        "redux-logger": "^2.7.4",
-        "redux-thunk": "^2.1.0"
+        "redux-thunk": "^2.1.0",
+        "string": "^3.3.3"
     }
 }
