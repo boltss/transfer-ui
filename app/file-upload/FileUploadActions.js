@@ -1,6 +1,6 @@
 import cmd from 'node-cmd'
 import S from 'string'
-import electron, { clipboard, ipcRenderer } from 'electron'
+const { clipboard } = window.require('electron') // Because normal import for Electon does not work with browserify
 
 import {
 	UPLOAD_FILE,
@@ -54,8 +54,6 @@ export const uploadFile = (file) => async (dispatch, state) => {
 }
 
 export const copyUploadedFileCurlToClipboard = () => async (dispatch, getState) => {
-	console.log(electron, ipcRenderer, clipboard)
-	ipcRenderer.send('asynchronous-message', 'ping')
 	const { uploadedFile } = getState().FileUploadReducer
 	if (uploadedFile) {
 		clipboard.writeText(uploadedFile.curlCommand)

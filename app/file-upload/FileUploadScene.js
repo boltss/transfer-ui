@@ -8,7 +8,8 @@ import Spinner from '../component/Spinner'
 
 export class FileUploadScene extends Component {
 	state = {
-		draggingFile: false
+		draggingFile: false,
+		copyClicked: false
 	}
 	onDropFile = (event) => {
 		this.onStopDraggingFile()
@@ -24,6 +25,21 @@ export class FileUploadScene extends Component {
 			draggingFile: false
 		});
 	}
+	onClickCopy = (event) => {
+		if (!this.props.uploadedFile || this.state.copyClicked) {
+			return
+		}
+		this.setState({
+			copyClicked: true
+		}, () => {
+			setTimeout(() => {
+				this.setState({
+					copyClicked: false
+				})
+			}, 1000)
+		})
+		this.props.actions.copyUploadedFileCurlToClipboard()
+	}
 	render() {
 		const {
 			actions,
@@ -31,9 +47,11 @@ export class FileUploadScene extends Component {
 			uploadedFile
 		} = this.props
 		const {
-			draggingFile
+			draggingFile,
+			copyClicked
 		} = this.state
 		const dropZoneTextActiveStyle = draggingFile ? styles.dropZoneTextActive: {}
+		const copyClickedStyle = copyClicked ? styles.copied : {}
 		return (
 			<div style={styles.container}>
 				<Dropzone
@@ -51,11 +69,13 @@ export class FileUploadScene extends Component {
 						}
 					</div>
 				</Dropzone>
-				<div style={styles.feedbackArea} onClick={actions.copyUploadedFileCurlToClipboard}>
+				<div style={{...styles.feedbackArea, ...copyClickedStyle}} onClick={this.onClickCopy}>
 					{uploadedFile ?
-						uploadedFile.curlCommand :
+						copyClicked ?
+							'Copied' :
+							'Click to copy curl' :
 						'Drag file above'
-					}
+						}
 				</div>
 			</div>
 		)
@@ -110,6 +130,11 @@ const styles = {
 		background: '#4a4a4a',
 		color: 'lightgray',
 		cursor: 'pointer',
-		userSelect: 'none'
+		userSelect: 'none',
+		WebkitUserSelect: 'none',
+		transition: '.5s color ease'
+	},
+	copied: {
+		color: '#55b963'
 	}
 }
