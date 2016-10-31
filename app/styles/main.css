@@ -1,5 +1,8 @@
+@import 'component/spinner.css';
+
 html, body, #app {
 	height: 100%;
 	margin: 0;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	background: #616161;
 }
