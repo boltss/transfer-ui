@@ -73,7 +73,7 @@ export class FileUploadScene extends Component {
 					{uploadedFile ?
 						copyClicked ?
 							'Copied' :
-							'Click to copy curl' :
+							'Click to copy curl cmd!' :
 						'Drag file above'
 						}
 				</div>
